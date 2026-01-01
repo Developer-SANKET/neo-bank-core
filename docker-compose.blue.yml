@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  neobank-blue:
+    image: devsanket99/neobank-app:latest
+    container_name: neobank-blue
+    restart: always
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/neobank
+      SPRING_DATASOURCE_USERNAME: neobank_user
+      SPRING_DATASOURCE_PASSWORD: StrongBank@123
+    deploy:
+      resources:
+        limits:
+          memory: 700M
