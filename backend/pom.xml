@@ -15,13 +15,14 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.2.0</version>
-        <relativePath/>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
     <properties>
         <java.version>17</java.version>
     </properties>
 
+    <!-- ✅ Dependencies must be inside <dependencies> -->
     <dependencies>
         <!-- Web -->
         <dependency>
@@ -55,15 +56,22 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Actuator for health checks -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- ✅ THIS CONFIG FIXES YOUR ERROR -->
+            <!-- Spring Boot plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <!-- Make sure this matches your @SpringBootApplication class -->
                     <mainClass>com.neobank.core.NeoBankApplication</mainClass>
                 </configuration>
             </plugin>

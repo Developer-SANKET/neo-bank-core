@@ -16,11 +16,13 @@ jobs:
           distribution: 'temurin'
 
       - name: Build JAR
-        run: mvn clean package -DskipTests
         working-directory: backend
+        run: ./mvnw clean package -DskipTests
 
       - name: Docker Login
-        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+        run: |
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" \
+          | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Build & Push Image
         run: |
@@ -31,7 +33,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Zero Downtime Deploy
+      - name: Zero Downtime Deploy (Blue-Green)
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.EC2_HOST }}
@@ -39,9 +41,19 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /opt/neo-bank-core
+
+            echo "Pull latest image"
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/neobank-app:latest
+
+            echo "Start GREEN environment"
             docker compose -f docker-compose.green.yml up -d
-            sleep 20
+
+            echo "Waiting for GREEN to be healthy"
+            sleep 15
+            curl -f http://localhost/actuator/health
+
+            echo "Switch traffic to GREEN"
+            docker compose restart nginx
+
+            echo "Stop BLUE environment"
             docker compose -f docker-compose.blue.yml down
-            docker compose -f docker-compose.blue.yml up -d
-            docker compose -f docker-compose.green.yml down
