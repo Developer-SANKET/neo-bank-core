@@ -7,7 +7,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
 
@@ -25,14 +24,12 @@ jobs:
 
       - name: Build & Push Image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/neobank-app:latest .
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/neobank-app:latest -f backend/Dockerfile .
           docker push ${{ secrets.DOCKERHUB_USERNAME }}/neobank-app:latest
-        working-directory: backend
 
   deploy:
     needs: build
     runs-on: ubuntu-latest
-
     steps:
       - name: Zero Downtime Deploy
         uses: appleboy/ssh-action@v1
@@ -42,6 +39,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             cd /opt/neo-bank-core
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/neobank-app:latest
             docker compose -f docker-compose.green.yml up -d
             sleep 20
             docker compose -f docker-compose.blue.yml down
