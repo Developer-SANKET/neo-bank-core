@@ -16,7 +16,6 @@ jobs:
           distribution: 'temurin'
 
       - name: Build JAR
-        working-directory: backend
         run: ./mvnw clean package -DskipTests
 
       - name: Docker Login
