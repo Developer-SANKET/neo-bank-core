@@ -15,8 +15,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build JAR
-        run: ./mvnw clean package -DskipTests
+      -  name: Build with Maven
+         run: mvn clean package -DskipTests
+
 
       - name: Docker Login
         run: |
