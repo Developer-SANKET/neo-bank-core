@@ -22,14 +22,12 @@ jobs:
 
 
       - name: Docker Login
-        run: |
-          echo "${{ secrets.DOCKERHUB_PASSWORD }}" \
-          | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" \
+             docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Build & Push Image
-        run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/neobank-app:latest -f backend/Dockerfile .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/neobank-app:latest
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/neobank-app:latest -f backend/Dockerfile .
+             docker push ${{ secrets.DOCKERHUB_USERNAME }}/neobank-app:latest
 
   deploy:
     needs: build
