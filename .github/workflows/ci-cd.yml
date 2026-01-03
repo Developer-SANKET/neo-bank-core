@@ -15,19 +15,18 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      -  name: Build with Maven
-         run: mvn clean package -DskipTests
-         working-directory: backend
-
-
+      - name: Build with Maven
+        working-directory: backend
+        run: ./mvnw clean package -DskipTests
 
       - name: Docker Login
-        run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" \
-             docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+        run: |
+          echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Build & Push Image
-        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/neobank-app:latest -f backend/Dockerfile .
-             docker push ${{ secrets.DOCKERHUB_USERNAME }}/neobank-app:latest
+        run: |
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/neobank-app:latest -f backend/Dockerfile .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/neobank-app:latest
 
   deploy:
     needs: build
