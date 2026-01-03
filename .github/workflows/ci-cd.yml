@@ -19,7 +19,6 @@ jobs:
         working-directory: backend
         run: mvn clean package -DskipTests
 
-
       - name: Docker Login
         run: |
           echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
@@ -49,8 +48,8 @@ jobs:
             docker compose -f docker-compose.green.yml up -d
 
             echo "Waiting for GREEN to be healthy"
-            sleep 15
-            curl -f http://localhost/actuator/health
+            sleep 20
+            docker inspect --format='{{json .State.Health.Status}}' $(docker compose -f docker-compose.green.yml ps -q app)
 
             echo "Switch traffic to GREEN"
             docker compose restart nginx
