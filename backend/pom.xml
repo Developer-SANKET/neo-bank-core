@@ -22,7 +22,7 @@
         <java.version>17</java.version>
     </properties>
 
-    <!-- ✅ Dependencies must be inside <dependencies> -->
+    <!-- Dependencies must be inside <dependencies> -->
     <dependencies>
         <!-- Web -->
         <dependency>
