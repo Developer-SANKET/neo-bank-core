@@ -5,7 +5,7 @@ FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
 # Copy the built Spring Boot JAR into the container
-COPY target/neobank.jar app.jar
+COPY backend/target/neobank.jar app.jar
 
 # JVM memory options (optimized for small EC2 instances)
 ENV JAVA_OPTS="-Xms256m -Xmx512m"
