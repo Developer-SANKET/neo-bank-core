@@ -17,7 +17,8 @@ jobs:
 
       - name: Build with Maven
         working-directory: backend
-        run: ./mvnw clean package -DskipTests
+        run: mvn clean package -DskipTests
+
 
       - name: Docker Login
         run: |
