@@ -4,8 +4,8 @@ FROM eclipse-temurin:17-jre-alpine
 # Set working directory inside container
 WORKDIR /app
 
-# Copy the Spring Boot JAR (from build context)
-COPY target/*.jar app.jar
+# Copy the Spring Boot fat JAR (not the .original one)
+COPY target/neo-bank-core-1.0.0.jar app.jar
 
 # JVM memory limits (safe for medium EC2)
 ENV JAVA_OPTS="-Xms256m -Xmx512m"
