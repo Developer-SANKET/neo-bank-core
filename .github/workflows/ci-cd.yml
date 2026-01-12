@@ -60,9 +60,11 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
           script: |
             set -e
-            cd /opt/neo-bank-core
+
+            cd /home/ubuntu/neo-bank-core
 
             echo "Pull latest image"
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/neobank-app:latest
@@ -73,10 +75,10 @@ jobs:
             echo "Wait for GREEN to become healthy"
             sleep 30
 
-            echo "Switch NGINX to GREEN"
+            echo "Reload NGINX"
             docker compose restart nginx
 
             echo "Stop BLUE environment"
             docker compose -f docker-compose.blue.yml down
 
-            echo "Deployment completed with ZERO downtime
+            echo "Deployment completed with ZERO downtime"
