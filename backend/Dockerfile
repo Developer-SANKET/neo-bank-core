@@ -8,7 +8,7 @@ WORKDIR /app
 COPY target/neo-bank-core-1.0.0.jar app.jar
 
 # JVM memory limits (safe for medium EC2)
-ENV JAVA_OPTS="-Xms256m -Xmx512m"
+# ENV JAVA_OPTS="-Xms256m -Xmx512m"
 
 # Expose application port
 EXPOSE 8080
@@ -18,4 +18,4 @@ HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
   CMD wget -qO- http://localhost:8080/actuator/health || exit 1
 
 # Start application
-ENTRYPOINT ["sh", "-c", "java","-jar","app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
