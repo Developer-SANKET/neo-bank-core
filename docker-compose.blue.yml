@@ -4,6 +4,8 @@ services:
   neobank-blue:
     image: devsanket99/neobank-app:latest
     container_name: neobank-blue
+    ports:
+      - "8081:8080"
     restart: always
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/neobank
