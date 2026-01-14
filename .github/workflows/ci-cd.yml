@@ -76,7 +76,7 @@ jobs:
             sleep 30
 
             echo "Reload NGINX"
-            docker compose restart nginx
+            sudo systemctl reload nginx
 
             echo "Stop BLUE environment"
             docker compose -f docker-compose.blue.yml down
