@@ -1,4 +1,4 @@
-package com.neobank.core;
+package com.neobank;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
