@@ -1,8 +1,5 @@
 version: "3.8"
 
-networks:
-  neobank-net:
-
 services:
   neobank-green:
     image: devsanket99/neobank-app:latest
@@ -11,8 +8,12 @@ services:
     expose:
       - "8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/neobank
+      SPRING_DATASOURCE_URL: jdbc:mysql://neobank-mysql:3306/neobank
       SPRING_DATASOURCE_USERNAME: neobank_user
       SPRING_DATASOURCE_PASSWORD: StrongBank@123
     networks:
       - neobank-net
+
+networks:
+  neobank-net:
+    external: true
