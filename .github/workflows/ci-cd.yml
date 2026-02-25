@@ -82,3 +82,4 @@ jobs:
             docker compose -f docker-compose.blue.yml down
 
             echo "Deployment completed with ZERO downtime"
+
